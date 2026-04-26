@@ -2,6 +2,10 @@ import { db } from "../_utils/firebase";
 import { collection, getDocs, addDoc, query } from "firebase/firestore";
 
 export const getItems = async (userId) => {
+  if (!db) {
+    return [];
+  }
+
   const items = [];
   const itemsCollection = collection(db, "users", userId, "items");
   const itemsQuery = query(itemsCollection);
@@ -18,6 +22,10 @@ export const getItems = async (userId) => {
 };
 
 export const addItem = async (userId, item) => {
+  if (!db) {
+    throw new Error("Firestore is not configured.");
+  }
+
   const itemsCollection = collection(db, "users", userId, "items");
   const docRef = await addDoc(itemsCollection, item);
 

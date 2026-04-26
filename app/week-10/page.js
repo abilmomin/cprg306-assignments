@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useUserAuth } from "./_utils/auth-context";
 
 export default function Week8LandingPage() {
-  const { user, loading, gitHubSignIn, firebaseSignOut } = useUserAuth();
+  const {
+    user,
+    loading,
+    gitHubSignIn,
+    firebaseSignOut,
+    isFirebaseConfigured,
+  } = useUserAuth();
 
   const handleSignIn = async () => {
     await gitHubSignIn();
@@ -21,7 +27,11 @@ export default function Week8LandingPage() {
           Shopping List App
         </h1>
 
-        {loading ? (
+        {!isFirebaseConfigured ? (
+          <p className="text-lg text-slate-600">
+            Add your Firebase environment variables in Vercel to enable login.
+          </p>
+        ) : loading ? (
           <p className="text-lg text-slate-600">Checking your session...</p>
         ) : user ? (
           <>
